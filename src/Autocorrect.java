@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Autocorrect
@@ -36,15 +37,24 @@ public class Autocorrect {
      * @param words The dictionary of acceptable words.
      * @param threshold The maximum number of edits a suggestion can have.
      */
+
+    private String[] dictionary;
+    private int threshold;
     public Autocorrect(String[] words, int threshold)
     {
 //        String testWord = what should be user input
-        String[] dictCopy = words;
-        int thresholdCopy = threshold;
-
-
-
+        this.dictionary = words;
+        this.threshold = threshold;
     }
+    /**
+     * General outline:
+     * - Dictionary Words
+     *     - LCS to narrow down
+     * - Candidate words
+     *     - edit distance
+     *     - +1 for add, subtract or swapping
+     * - ranked suggestions sorted by lowest edit distance
+     */
 
     public int levenshteinDist(String string1, String string2)
     {
@@ -69,6 +79,11 @@ public class Autocorrect {
                 {
                     inspectionTable[i][j] = inspectionTable[i - 1][j - 1];
                 }
+                //Base Case: else, distance will be 1 + the minimum distance of the square to the left, above, and left diagonalally.
+                else
+                {
+                    inspectionTable[i][j] = 1 + Math.min(inspectionTable[i - 1][j], Math.min(inspectionTable[i][j-1], inspectionTable[i-1][j-1]));
+                }
             }
         }
 
@@ -82,7 +97,9 @@ public class Autocorrect {
      * to threshold, sorted by edit distance, then sorted alphabetically.
      */
     public String[] runTest(String typed) {
+        ArrayList<String> wordList = new ArrayList<String>();
 
+        //Should be a list of words that match up with the test cases; list should be ordered from least to max leven.Dist AND alphabetical order if same dist.)
         return new String[0];
     }
 
