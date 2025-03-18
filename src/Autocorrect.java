@@ -26,7 +26,7 @@ import java.io.IOException;
  *
  * - Currently using substring, but better to replace with something more efficient
  *  - Tries? Hashing or smth?
- *
+ * Test
  *  - Sort first by the word(alphabetically), and then sort them by edit distance
  */
 public class Autocorrect {
