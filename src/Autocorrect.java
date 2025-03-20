@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+
 
 /**
  * Autocorrect
@@ -97,10 +99,36 @@ public class Autocorrect {
      * to threshold, sorted by edit distance, then sorted alphabetically.
      */
     public String[] runTest(String typed) {
-        ArrayList<String> wordList = new ArrayList<String>();
 
         //Should be a list of words that match up with the test cases; list should be ordered from least to max leven.Dist AND alphabetical order if same dist.)
-        return new String[0];
+        ArrayList<String> wordList = new ArrayList<String>();
+
+        //This currently isn't pushing them out alphabetically, seems to just be pushing them out based on least to greatest levDist.
+        for(int i = 0; i < dictionary.length;i++)
+        {
+            int levDist = levenshteinDist(dictionary[i], typed);
+            if (levDist <= threshold)
+            {
+                wordList.add(dictionary[i]);
+                System.out.println(dictionary[i] + ", " + levDist);
+            }
+        }
+
+        //This sorting method was created by Damian with the assistance of an LLM
+        wordList.sort((word1, word2) ->
+        {
+            int dist1 = levenshteinDist(word1, typed);
+            int dist2 = levenshteinDist(word2, typed);
+
+            // First, compare by Levenshtein distance
+            if (dist1 != dist2) {
+                return Integer.compare(dist1, dist2);
+            }
+            // If distances are equal, compare alphabetically
+            return word1.compareTo(word2);
+        });
+
+        return wordList.toArray(new String[0]);
     }
 
 
