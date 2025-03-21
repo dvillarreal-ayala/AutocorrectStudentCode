@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Scanner;
 
 
 /**
@@ -31,6 +31,12 @@ import java.util.Collections;
  *  - Tries? Hashing or smth?
  * Test
  *  - Sort first by the word(alphabetically), and then sort them by edit distance
+ *
+ *  Code works! And I'm very surprised about it.
+ *
+ *  in a while loop, prompt them for a word.
+ *  If its a valid word, keep it pushing.
+ *  IF it isn't, then present the word correction options
  */
 public class Autocorrect {
 
@@ -44,7 +50,6 @@ public class Autocorrect {
     private int threshold;
     public Autocorrect(String[] words, int threshold)
     {
-//        String testWord = what should be user input
         this.dictionary = words;
         this.threshold = threshold;
     }
@@ -100,7 +105,7 @@ public class Autocorrect {
      */
     public String[] runTest(String typed) {
 
-        //Should be a list of words that match up with the test cases; list should be ordered from least to max leven.Dist AND alphabetical order if same dist.)
+        //Should be a list of words that match up with the test cases; list should be ordered from least to max leven.Dist AND alphabetical order (if same dist.)
         ArrayList<String> wordList = new ArrayList<String>();
 
         //This currently isn't pushing them out alphabetically, seems to just be pushing them out based on least to greatest levDist.
@@ -127,14 +132,37 @@ public class Autocorrect {
             // If distances are equal, compare alphabetically
             return word1.compareTo(word2);
         });
+        //End of assisted segment
 
         return wordList.toArray(new String[0]);
     }
 
+    public static void main(String[] args) {
+        Autocorrect auto = new Autocorrect(loadDictionary("large"), 3);
+        auto.run();
+    }
+
+    private void run() {
+        Scanner s = new Scanner(System.in);
+        //Currently an infinite loop.
+        while(true) {
+            // prompt for input
+            System.out.println("Enter a word: ");
+            String response = s.nextLine();
+            // evalute
+
+
+            // suggest
+
+            // :)
+
+        }
+    }
+
 
     /**
-     * Loads a dictionary of words from the provided textfiles in the dictionaries directory.
-     * @param dictionary The name of the textfile, [dictionary].txt, in the dictionaries directory.
+     * Loads a dictionary of words from the provided textfiles in the dictionary's directory.
+     * @param dictionary The name of the textfile, [dictionary].txt, in the dictionary's directory.
      * @return An array of Strings containing all words in alphabetical order.
      */
     private static String[] loadDictionary(String dictionary)  {
