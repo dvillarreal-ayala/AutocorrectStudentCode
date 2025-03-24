@@ -115,7 +115,7 @@ public class Autocorrect {
             if (levDist <= threshold)
             {
                 wordList.add(dictionary[i]);
-                System.out.println(dictionary[i] + ", " + levDist);
+//                System.out.println(dictionary[i] + ", " + levDist);
             }
         }
 
@@ -138,11 +138,11 @@ public class Autocorrect {
     }
 
     public static void main(String[] args) {
-        Autocorrect auto = new Autocorrect(loadDictionary("large"), 3);
-        auto.run();
+        Autocorrect auto = new Autocorrect(loadDictionary("large"), 2);
+        auto.run(auto);
     }
 
-    private void run() {
+    private void run(Autocorrect autocorrect) {
         Scanner s = new Scanner(System.in);
         //Currently an infinite loop.
         while(true) {
@@ -150,12 +150,30 @@ public class Autocorrect {
             System.out.println("Enter a word: ");
             String response = s.nextLine();
             // evalute
-
-
+            String[] autocorrectList = autocorrect.runTest(response);
+            // If there is nothing suggested to autocorrect to, return 'No matches'
+            if(autocorrectList.length == 0)
+            {
+                System.out.println("No matches found.");
+            }
+            /**
+             * if the levenshteinDist returns an option with a distance of zero, it means it's already a valid word
+             * in the dictionary. Otherwise, print out suggestions.
+             */
+            else if ((levenshteinDist(response, autocorrectList[0]) == 0))
+            {
+                System.out.println("Already a valid word");
+            }
             // suggest
-
+            else
+            {
+                System.out.println("Suggestions:");
+                for(int i = 0; i < autocorrectList.length; i++)
+                {
+                    System.out.println(autocorrectList[i]);
+                }
+            }
             // :)
-
         }
     }
 
