@@ -138,17 +138,23 @@ public class Autocorrect {
     }
 
     public static void main(String[] args) {
+        System.out.println("To stop the program from running, please hit return when prompted for a new word.");
         Autocorrect auto = new Autocorrect(loadDictionary("large"), 2);
         auto.run(auto);
+        System.out.println("Thanks for using my autocorrect :P");
+
     }
 
-    private void run(Autocorrect autocorrect) {
+    private void run(Autocorrect autocorrect)
+    {
         Scanner s = new Scanner(System.in);
+        String response = " ";
         //Currently an infinite loop.
-        while(true) {
+        while(!response.isEmpty())
+        {
             // prompt for input
             System.out.println("Enter a word: ");
-            String response = s.nextLine();
+            response = s.nextLine();
             // evalute
             String[] autocorrectList = autocorrect.runTest(response);
             // If there is nothing suggested to autocorrect to, return 'No matches'
@@ -164,11 +170,16 @@ public class Autocorrect {
             {
                 System.out.println("Already a valid word");
             }
-            // suggest
+            //If the string is empty, I want to consider that the way to exit out of my code.
+            else if(response.isEmpty())
+            {
+                return;
+            }
+            // suggest top 5 words.
             else
             {
                 System.out.println("Suggestions:");
-                for(int i = 0; i < autocorrectList.length; i++)
+                for(int i = 0; i < 5; i++)
                 {
                     System.out.println(autocorrectList[i]);
                 }
